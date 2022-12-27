@@ -1,1 +1,18 @@
 {% extends "connect/layout.html" %}
+
+{% block body %}
+    <form action="" method="post" class="form">
+        {% csrf_token %}
+        <select name="tags" id="form__select" multiple>
+            {% for t in tags %}
+            <option value="{{ t.name }}">{{ t.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Sumbit">
+    </form>
+
+    <h2>Users</h2>
+    {% for u in users %}
+        <p>{{ u }}</p>
+    {% endfor %}
+{% endblock %}
