@@ -1,60 +1,81 @@
 from django.shortcuts import render
 from .models import *
 
+
+ALL_TAGS = []
+def define_all_tags():
+    for tag in Sport.objects.all():
+        ALL_TAGS.append(tag)
+
+    for tag in Human_Language.objects.all():
+        ALL_TAGS.append(tag)
+
+    for tag in Programming_Language.objects.all():
+        ALL_TAGS.append(tag)
+
+    for tag in Profession.objects.all():
+        ALL_TAGS.append(tag)
+
+    for tag in Interest.objects.all():
+        ALL_TAGS.append(tag)
+
+    for tag in CLGNIT.objects.all():
+        ALL_TAGS.append(tag)
+
+
+ALL_USERS = {}
+def setup_users():
+    user_tags = []
+    
+    for user in User.objects.all():
+        for item in user.sport.all():
+            user_tags.append(item.name)
+        for item in user.language.all():
+            user_tags.append(item.name)
+        for item in user.programming_language.all():
+            user_tags.append(item.name)
+        for item in user.profession.all():
+            user_tags.append(item.name)
+        for item in user.interest.all():
+            user_tags.append(item.name)
+        for item in user.clgnit.all():
+            user_tags.append(item.name)
+
+        ALL_USERS[user] = user_tags
+        user_tags = []
+
+
+define_all_tags()
+setup_users()
+
+
 def index(request):
-
-    tags = []
-
-    s = Sport.objects.all()
-    hl = Human_Language.objects.all()
-    pl = Programming_Language.objects.all()
-    p = Profession.objects.all()
-    intr = Interest.objects.all()
-    clg = CLGNIT.objects.all()
-
-
-    for i in s:
-        tags.append(i)
-
-    for i in hl:
-        tags.append(i)
-
-    for i in pl:
-        tags.append(i)
-
-    for i in p:
-        tags.append(i)
-
-    for i in intr:
-        tags.append(i)
-
-    for i in clg:
-        tags.append(i)
-
-
     if request.method == "POST":
+        submitted_tags = request.POST.getlist("tags")
 
-        tag = request.POST.getlist("tags")
-        print(tag)
-
-
-        ru = []
-        users = User.objects.all()
-
-        for t in tag:
-            for u in users:
-                for tn in u.sport.all():
-                    print(tn, t)
-                    if t in tn.name:
-                        ru.append(u) 
+        filtered_users = []
+        for tag in submitted_tags:
+            for user in ALL_USERS:
+                if tag in ALL_USERS[user]:
+                    filtered_users.append(user)
 
         return render(request, "connect/index.html", {
-            "tags": tags,
-            "users": ru
-
+            "tags": ALL_TAGS,
+            "users": filtered_users
         })
 
-
     return render(request, "connect/index.html", {
-        "tags": tags
+        "tags": ALL_TAGS
     })
+
+
+def about(request):
+    return render(request, "connect/layout.html")
+
+
+def profile(request):
+    return render(request, "connect/profile.html")
+
+
+def individual_profile(request):
+    return render(request, "connect/individual-profile.html")

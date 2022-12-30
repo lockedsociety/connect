@@ -9,6 +9,11 @@
 <body>
     <header class="header">
         <h1 class="header__title">Connect</h1>
+        <nav class="header__nav">
+            <a href="{% url 'connect-index' %}">Home</a>
+            <a href="{% url 'connect-profile' %}">Profile</a>
+            <a href="{% url 'connect-about' %}">About</a>
+        </nav>
     </header>
     {% block body %}
     {% endblock %}

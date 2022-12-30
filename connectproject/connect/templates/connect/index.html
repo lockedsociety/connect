@@ -12,7 +12,11 @@
     </form>
 
     <h2>Users</h2>
-    {% for u in users %}
-        <p>{{ u }}</p>
+    {% for user in users %}
+        <div>
+            <p>{{ user.username }}</p>
+            <p>Age: {{ user.age }}</p>
+            <p>Sex: {{ user.sex }}</p>
+        </div>
     {% endfor %}
 {% endblock %}
