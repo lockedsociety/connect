@@ -1,6 +1,16 @@
 from django.shortcuts import render
+from rest_framework import viewsets
+from .serializers import *
 from .models import *
 
+
+class User_View(viewsets.ModelViewSet):
+    serializer_class = User_Serializer
+    queryset = User.objects.all()
+
+class Sport_View(viewsets.ModelViewSet):
+    serializer_class = Sport_Serializer
+    queryset = Sport.objects.all()
 
 ALL_TAGS = []
 def define_all_tags():
@@ -70,7 +80,7 @@ def index(request):
 
 
 def about(request):
-    return render(request, "connect/layout.html")
+    return render(request, "connect/about.html")
 
 
 def profile(request):

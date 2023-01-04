@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "rest_framework",
+    "corsheaders",
     "connect",
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,5 +125,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 AUTH_USER_MODEL = "connect.User"
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000"
+]
